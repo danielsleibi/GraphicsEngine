@@ -4,6 +4,23 @@ unsigned int TextureFromFile(const char *path, const std::string &directory);
 GE::Model::Model(std::string path)
 {
     loadModel(path);
+    matrix = glm::mat4(1.0f);
+}
+
+GE::Model::Model(std::string path, glm::vec3 position)
+{
+    loadModel(path);
+    matrix = glm::mat4(1.0f);
+    matrix = glm::translate(matrix, position);
+}
+
+glm::mat4 GE::Model::getMatrix()
+{
+    return matrix;
+}
+void GE::Model::setMatrix(glm::mat4 &matrix)
+{
+    this->matrix = matrix;
 }
 
 void GE::Model::loadModel(std::string path)
@@ -23,8 +40,20 @@ void GE::Model::loadModel(std::string path)
 
 void GE::Model::Draw(Shader &shader)
 {
+    shader.setMatrix("model", matrix);
     for (unsigned int i = 0; i < meshes.size(); i++)
         meshes[i].Draw(shader);
+}
+
+GE::Model::operator std::string() const
+{
+    glm::vec3 pos(
+        matrix[3][0],
+        matrix[3][1],
+        matrix[3][2]);
+
+    return "Model[directory=" + directory + ", matrix=(" + std::to_string(pos.x) + ", " + std::to_string(pos.y) + ", " + std::to_string(pos.z) + ")"
+                                                                                                                                                 "]";
 }
 
 void GE::Model::processNode(aiNode *node, const aiScene *scene)
