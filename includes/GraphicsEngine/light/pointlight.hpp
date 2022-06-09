@@ -7,6 +7,12 @@ namespace GE
 
     class PointLight
     {
+        friend bool operator==(PointLight &a, PointLight &b)
+        {
+            if (!(a.getPosition() == (b.getPosition())))
+                return true;
+            return false;
+        }
 
     public:
         PointLight(glm::vec3 position);

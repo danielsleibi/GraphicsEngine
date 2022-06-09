@@ -8,7 +8,7 @@ namespace GE
     {
 
     public:
-        DirectionLight(glm::vec3 position);
+        DirectionLight(glm::vec3 direction);
         DirectionLight(glm::vec3 ambient, glm ::vec3 diffuse, glm::vec3 specular, glm::vec3 position, float constant, float linear, float quadratic);
         glm::vec3 getAmbient();
         void setAmbient(glm::vec3 ambient);
